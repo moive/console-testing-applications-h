@@ -1,0 +1,22 @@
+{
+	"name": "clean-architecture-beginner-h",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"dev": "ts-node src/app.ts",
+		"dev:nodemon": "nodemon",
+		"build": "rimraf ./dist && tsc",
+		"start": "npm run build && node dist/app.js"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"devDependencies": {
+		"@types/node": "^20.11.24",
+		"nodemon": "^3.1.0",
+		"rimraf": "^5.0.5",
+		"ts-node": "^10.9.2",
+		"typescript": "^5.3.3"
+	}
+}
