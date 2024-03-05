@@ -1,1 +1,2 @@
-import "./multiplication";
+// import "./multiplication";
+import "./arguments-values";
