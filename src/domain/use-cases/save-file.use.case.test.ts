@@ -10,6 +10,11 @@ describe("SaveFileUseCase", () => {
 
 	const customFilePath = `${customOptions.fileDestination}/${customOptions.fileName}.txt`;
 
+	/* beforeEach(()=>{
+		jest.clearAllMocks();
+		// const logMock = jest.fn();
+	}); */
+
 	afterEach(() => {
 		const outputFolderExists = fs.existsSync("outputs");
 		if (outputFolderExists) fs.rmSync("outputs", { recursive: true });
@@ -69,5 +74,28 @@ describe("SaveFileUseCase", () => {
 		expect(result).toBe(true);
 		expect(fileExists).toBe(true);
 		expect(fileContent).toBe(resTxtFile);
+	});
+
+	test("Should return false if directory could not be created", () => {
+		const saveFile = new SaveFile();
+		const mkdirSpy = jest.spyOn(fs, "mkdirSync").mockImplementation(() => {
+			throw new Error("This is a custom error message from testing");
+		});
+
+		const result = saveFile.execute(customOptions);
+		expect(result).toBe(false);
+		mkdirSpy.mockRestore(); // clean spy
+	});
+	test("Should return false if directory could not be created", () => {
+		const saveFile = new SaveFile();
+		const writeFileSpy = jest
+			.spyOn(fs, "writeFileSync")
+			.mockImplementation(() => {
+				throw new Error("This is a custom writing error message");
+			});
+
+		const result = saveFile.execute({ fileContent: "Hello", base: 7 });
+		expect(result).toBe(false);
+		writeFileSpy.mockRestore(); // clean spy
 	});
 });
