@@ -5,6 +5,12 @@ const runCommand = async (args: string[]) => {
 };
 
 describe("Test yargs.plugin.ts", () => {
+	const originalArgv = process.argv;
+	beforeEach(() => {
+		process.argv = originalArgv;
+		jest.resetModules();
+	});
+
 	test("Should return default values", async () => {
 		const argv = await runCommand(["-b", "5"]);
 		console.log(process.argv);
@@ -16,6 +22,30 @@ describe("Test yargs.plugin.ts", () => {
 				s: false,
 				n: "multiplication-table",
 				d: "outputs",
+			})
+		);
+	});
+
+	test("Should return configuration with custom values", async () => {
+		const argv = await runCommand([
+			"-b",
+			"8",
+			"-l",
+			"20",
+			"-s",
+			"-n",
+			"custom-name",
+			"-d",
+			"custom-dir",
+		]);
+
+		expect(argv).toEqual(
+			expect.objectContaining({
+				b: 8,
+				l: 20,
+				s: true,
+				n: "custom-name",
+				d: "custom-dir",
 			})
 		);
 	});
